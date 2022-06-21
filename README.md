@@ -8,6 +8,8 @@ This web application lets you analyse the sentiments of a content, the content c
 text** or a **tag of a topic**. If you input a tag then the application will look for all the recent tweets
 related to that topic tag and do the sentiment analysis on content of those tweets.
 
+For a deeper dive into purpose of this application see :https://devfolio.co/projects/hateanalyser-1f48
+
 ## Features
 
 - Generate full sentiment analysis report
