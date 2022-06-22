@@ -27,7 +27,7 @@ app.get("/test", (req, res) => {
   console.log(`Test request processed`);
 });
 
-app.post("/analysis/text", async (req, res) => {
+app.post("/api/analysis/text", async (req, res) => {
   try {
     console.log(`Text request`);
     const response = await analysis.sentimentAnalysis(
@@ -42,7 +42,7 @@ app.post("/analysis/text", async (req, res) => {
   }
 });
 
-app.post("/analysis/tag", async (req, res) => {
+app.post("/api/analysis/tag", async (req, res) => {
   try {
     const response = await report.main(req.body.content);
     console.log("final report response: " + currentDate.getSeconds());

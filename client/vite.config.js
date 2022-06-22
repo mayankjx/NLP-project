@@ -5,12 +5,12 @@ import vue from "@vitejs/plugin-vue";
 export default defineConfig({
   plugins: [vue()],
   build: {
-    outDir: "../server/public",
+    outDir: "./dist",
   },
   server: {
     proxy: {
-      "/": {
-        target: "http://localhost:8000",
+      "/api": {
+        target: "http://localhost:8000/api",
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, ""),

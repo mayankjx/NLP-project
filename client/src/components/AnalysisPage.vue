@@ -92,7 +92,10 @@ export default {
 
       // send post request to server
 
-      const response = await this.$http.post("/analysis/text", this.inputData);
+      const response = await this.$http.post(
+        "/api/analysis/text",
+        this.inputData
+      );
       this.reportData = response.data;
     },
 
@@ -101,7 +104,10 @@ export default {
       // get tag input
       this.inputData["content"] = this.inputString;
       // call the api endpoint
-      const response = await this.$http.post("/analysis/tag", this.inputData);
+      const response = await this.$http.post(
+        "/api/analysis/tag",
+        this.inputData
+      );
       // hydrate reportData
       this.reportData = response.data;
       console.log(response.data);

@@ -7,3 +7,4 @@ RUN npm install
 # up in backend image
 COPY . . 
 CMD ["npm", "run", "server"]
+    
