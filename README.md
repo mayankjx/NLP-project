@@ -51,7 +51,7 @@ npm install
 npm run dev
 ```
 
-for production release of frontend
+To generate static files 
 
 ```sh
 npm run build --overRide
