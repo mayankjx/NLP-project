@@ -31,6 +31,20 @@
         :placeholder="placeholder"
       ></textarea>
     </div>
+    <Transition name="fade">
+      <div v-if="loadingData" class="loadingArea">
+        <!-- <h1>Loading...</h1> -->
+        <div class="spinner-box">
+          <div class="configure-border-1">
+            <div class="configure-core"></div>
+          </div>
+          <div class="configure-border-2">
+            <div class="configure-core"></div>
+          </div>
+        </div>
+      </div>
+    </Transition>
+
     <Report :reportData="reportData"></Report>
     <button
       class="formSubmit"
@@ -64,6 +78,7 @@ export default {
       displayTxt: true,
       displayTag: false,
       placeholder: "Enter your text here",
+      loadingData: false,
     };
   },
   methods: {
@@ -91,11 +106,14 @@ export default {
       this.inputData["content"] = this.inputString;
 
       // send post request to server
-
+      this.reportData = {};
+      this.loadingData = true;
+      console.log(this.loadingData);
       const response = await this.$http.post(
         "/api/analysis/text",
         this.inputData
       );
+      this.loadingData = false;
       this.reportData = response.data;
     },
 
@@ -104,11 +122,15 @@ export default {
       // get tag input
       this.inputData["content"] = this.inputString;
       // call the api endpoint
+      this.reportData = {};
+      this.loadingData = true;
+      console.log(this.loadingData);
       const response = await this.$http.post(
         "/api/analysis/tag",
         this.inputData
       );
       // hydrate reportData
+      this.loadingData = false;
       this.reportData = response.data;
       console.log(response.data);
     },
@@ -194,6 +216,103 @@ export default {
   opacity: 0;
 }
 
+.loadingArea {
+  grid-column: 8/12;
+  grid-row: 6/11;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  // align-self: center;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+@keyframes configure-clockwise {
+  0% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes configure-xclockwise {
+  0% {
+    transform: rotate(45deg);
+  }
+  25% {
+    transform: rotate(-45deg);
+  }
+  50% {
+    transform: rotate(-135deg);
+  }
+  75% {
+    transform: rotate(-225deg);
+  }
+  100% {
+    transform: rotate(-315deg);
+  }
+}
+
+.spinner-box {
+  width: 300px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $primary-color;
+}
+
+.configure-border-1 {
+  width: 55px;
+  height: 55px;
+  padding: 3px;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: $accent-color;
+  animation: configure-clockwise 3s ease-in-out 0s infinite alternate;
+}
+
+.configure-border-2 {
+  width: 55px;
+  height: 55px;
+  padding: 3px;
+  left: -55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: $secondary-color;
+  transform: rotate(45deg);
+  animation: configure-xclockwise 3s ease-in-out 0s infinite alternate;
+}
+
+.configure-core {
+  width: 100%;
+  height: 100%;
+  background-color: $primary-color;
+}
+
 .textInput {
   grid-column: 2 / 7;
   grid-row: 6/11;
@@ -242,5 +361,9 @@ export default {
   font-weight: 600;
   text-align: center;
   cursor: pointer;
+}
+
+.formSubmit:focus {
+  outline: none;
 }
 </style>
